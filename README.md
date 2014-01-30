@@ -5,7 +5,8 @@ Used to build the vm images available for download on [alerta.io](http://alerta.
 
 ```
 $ packer validate alerta.json
-$ packer build -var 'aws_access_key=YOUR ACCESS KEY' -var 'aws_secret_key=YOUR SECRET KEY' alerta.json
+$ packer build -var 'aws_access_key=YOUR ACCESS KEY' \
+  -var 'aws_secret_key=YOUR SECRET KEY' alerta.json
 ```
 
 License
