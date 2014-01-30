@@ -9,11 +9,11 @@ sudo apt-get update
 sudo apt-get install -y git wget python-setuptools python-pip build-essential python-dev
 sudo apt-get install -y mongodb-server rabbitmq-server apache2 libapache2-mod-wsgi
 
-# Configure MongoDB
+# Configure MongoDB for development environment
 grep -q smallfiles /etc/mongodb.conf || echo "smallfiles = true" | sudo tee -a /etc/mongodb.conf
 sudo service mongodb restart
 
-# Configure RabbitMQ
+# Configure RabbitMQ to enable STOMP and declare default exchange
 sudo /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 sudo /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_stomp
 sudo service rabbitmq-server restart
@@ -23,24 +23,24 @@ wget -qO /var/tmp/rabbitmqadmin http://guest:guest@localhost:55672/cli/rabbitmqa
 # Install and configure Alerta
 sudo pip install alerta
 sudo mkdir -p /etc/alerta
-sudo cp /vagrant/files/alerta.conf /etc/alerta/alerta.conf
-sudo cp /vagrant/files/upstart-alerta.conf /etc/init/alerta.conf
+wget -qO /etc/alerta/alerta.conf https://raw.github.com/alerta/packer-templates/master/files/alerta.conf
+wget -qO /etc/init/alerta.conf https://raw.github.com/alerta/packer-templates/master/files/upstart-alerta.conf
 sudo initctl reload-configuration alerta
 sudo service alerta restart
 
 # Configure Apache web server
 sudo mkdir -p /var/www/alerta
-sudo cp /vagrant/files/alerta-api.wsgi /var/www/alerta/alerta-api.wsgi
-sudo cp /vagrant/files/httpd-alerta-api.conf /etc/apache2/conf.d/alerta-api.conf
-sudo cp /vagrant/files/alerta-dashboard.wsgi /var/www/alerta/alerta-dashboard.wsgi
-sudo cp /vagrant/files/httpd-alerta-dashboard.conf /etc/apache2/conf.d/alerta-dashboard.conf
+wget -qO /var/www/alerta/alerta-api.wsgi https://raw.github.com/alerta/packer-templates/master/files/alerta-api.wsgi
+wget -qO /etc/apache2/conf.d/alerta-api.conf https://raw.github.com/alerta/packer-templates/master/files/httpd-alerta-api.conf
+wget -qO /var/www/alerta/alerta-dashboard.wsgi https://raw.github.com/alerta/packer-templates/master/files/alerta-dashboard.wsgi
+wget -qO /etc/apache2/conf.d/alerta-dashboard.conf https://raw.github.com/alerta/packer-templates/master/files/httpd-alerta-dashboard.conf
 PYTHON_ROOT_DIR=`pip show alerta | awk '/Location/ { print $2 } '`
 sudo sed -i "s#@STATIC@#$PYTHON_ROOT_DIR#" /etc/apache2/conf.d/alerta-dashboard.conf
 sudo chmod 0775 /var/log/alerta && sudo chgrp www-data /var/log/alerta
 sudo service apache2 restart
 
 # Generate test alerts
-cp /vagrant/files/create-alerts.sh /var/tmp/create-alerts.sh
+wget -qO /var/tmp/create-alerts.sh https://raw.github.com/alerta/packer-templates/master/files/create-alerts.sh
 chmod +x /var/tmp/create-alerts.sh && /var/tmp/create-alerts.sh
 
 pip show alerta
