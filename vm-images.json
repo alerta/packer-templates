@@ -1,17 +1,15 @@
 {
   "variables": {
     "provisioner": "provisionerless",
-    "provisioner_version": "",
-    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso",
-    "iso_checksum": "2af1c223f586f59237212bb9c06ad774673c8952"
+    "provisioner_version": ""
   },
   "builders": [{
     "vm_name": "ubuntu1304",
     "type": "vmware-iso",
     "guest_os_type": "ubuntu-64",
     "http_directory": "http",
-    "iso_url": "{{ user `iso_url` }}",
-    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso",
+    "iso_checksum": "2af1c223f586f59237212bb9c06ad774673c8952",
     "iso_checksum_type": "sha1",
     "ssh_username": "vagrant",
     "ssh_password": "vagrant",
@@ -51,8 +49,8 @@
     "vm_name": "ubuntu1304",
     "type": "virtualbox-iso",
     "http_directory": "http",
-    "iso_url": "{{ user `iso_url` }}",
-    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso",
+    "iso_checksum": "2af1c223f586f59237212bb9c06ad774673c8952",
     "iso_checksum_type": "sha1",
     "guest_os_type": "Ubuntu_64",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
@@ -91,6 +89,7 @@
       "scripts/sshd.sh",
       "scripts/vmtools.sh",
       "scripts/provisioner.sh",
+      "scripts/alerta.sh",
       "scripts/cleanup.sh",
       "scripts/zerodisk.sh"
     ]

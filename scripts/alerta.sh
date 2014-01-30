@@ -1,10 +1,7 @@
 #!/bin/sh -e
 
-# Update packages
-sudo apt-get update
-
 # Install required dependencies
-sudo apt-get install -y git wget python-setuptools python-pip build-essential python-dev
+sudo apt-get install -y git python-setuptools python-pip build-essential python-dev
 sudo apt-get install -y mongodb-server rabbitmq-server apache2 libapache2-mod-wsgi
 
 # Configure MongoDB for development environment
