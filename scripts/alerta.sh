@@ -16,7 +16,7 @@ wget -qO /var/tmp/rabbitmqadmin http://guest:guest@localhost:55672/cli/rabbitmqa
 /var/tmp/rabbitmqadmin declare exchange name=alerts type=fanout
 
 # Install and configure Alerta
-sudo pip install alerta==$RELEASE
+sudo pip install alerta
 sudo mkdir -p /etc/alerta
 sudo wget -qO /etc/alerta/alerta.conf https://raw.github.com/alerta/packer-templates/master/files/alerta.conf
 sudo wget -qO /etc/init/alerta.conf https://raw.github.com/alerta/packer-templates/master/files/upstart-alerta.conf

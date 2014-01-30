@@ -2,7 +2,7 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "release": ""
+    "name": "alerta-{{isotime | clean_ami_name}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -12,7 +12,7 @@
     "source_ami": "ami-b6ad5ac1",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "alerta {{user `release`}}",
+    "ami_name": "{{user `name`}}",
     "tags": {
       "packager": "packer.io"
     }
@@ -20,9 +20,6 @@
   "provisioners": [{
     "type": "shell",
     "script": "scripts/alerta.sh",
-    "environment_vars": [
-      "RELEASE={{user `release`}}"
-    ],
     "pause_before": "10s"
   }]
 }

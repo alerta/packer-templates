@@ -1,7 +1,8 @@
 {
   "variables": {
     "provisioner": "provisionerless",
-    "provisioner_version": ""
+    "provisioner_version": "",
+    "name": "alerta-{{isotime | clean_ami_name}}"
   },
   "builders": [{
     "vm_name": "ubuntu1304",
@@ -97,6 +98,6 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": false,
-    "output": "../../{{.Provider}}/ubuntu1304-{{user `provisioner`}}{{user `provisioner_version`}}.box"
+    "output": "{{user `name`}}.box"
   }]
 }
