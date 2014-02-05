@@ -2,7 +2,7 @@
   "variables": {
     "provisioner": "provisionerless",
     "provisioner_version": "",
-    "name": "alerta-{{isotime | clean_ami_name}}"
+    "name": "alerta-{{timestamp}}"
   },
   "builders": [{
     "vm_name": "ubuntu1304",

@@ -38,3 +38,6 @@ sudo service apache2 restart
 wget -qO /var/tmp/create-alerts.sh https://raw.github.com/alerta/packer-templates/master/files/create-alerts.sh
 chmod +x /var/tmp/create-alerts.sh && /var/tmp/create-alerts.sh
 
+# Clean-up
+mongo monitoring --eval 'db.heartbeats.remove()'
+

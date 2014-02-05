@@ -2,7 +2,7 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "name": "alerta-{{isotime | clean_ami_name}}"
+    "name": "alerta-{{timestamp}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -13,8 +13,10 @@
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
     "ami_name": "{{user `name`}}",
+    "ami_description": "Alerta monitoring server and console http://github.com/guardian/alerta",
     "tags": {
-      "packager": "packer.io"
+      "Packager": "packer.io",
+      "App": "Alerta"
     }
   }],
   "provisioners": [{
