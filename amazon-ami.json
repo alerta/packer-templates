@@ -16,7 +16,7 @@
     "ami_description": "Alerta monitoring server and console http://github.com/guardian/alerta",
     "tags": {
       "Packager": "packer.io",
-      "App": "Alerta"
+      "Name": "Alerta"
     }
   }],
   "provisioners": [{

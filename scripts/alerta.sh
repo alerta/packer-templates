@@ -13,7 +13,8 @@ sudo /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_management
 sudo /usr/lib/rabbitmq/bin/rabbitmq-plugins enable rabbitmq_stomp
 sudo service rabbitmq-server restart
 wget -qO /var/tmp/rabbitmqadmin http://guest:guest@localhost:55672/cli/rabbitmqadmin && chmod +x /var/tmp/rabbitmqadmin
-/var/tmp/rabbitmqadmin declare exchange name=alerts type=fanout
+/var/tmp/rabbitmqadmin declare exchange name=alerts type=fanout durable=true
+sudo /usr/sbin/rabbitmqctl list_exchanges name type durable
 
 # Install and configure Alerta
 sudo pip install alerta
@@ -31,7 +32,7 @@ sudo wget -qO /var/www/alerta/alerta-dashboard.wsgi https://raw.github.com/alert
 sudo wget -qO /etc/apache2/conf.d/alerta-dashboard.conf https://raw.github.com/alerta/packer-templates/master/files/httpd-alerta-dashboard.conf
 PYTHON_ROOT_DIR=`pip show alerta | awk '/Location/ { print $2 } '`
 sudo sed -i "s#@STATIC@#$PYTHON_ROOT_DIR#" /etc/apache2/conf.d/alerta-dashboard.conf
-sudo chmod 0775 /var/log/alerta && sudo chgrp www-data /var/log/alerta
+sudo chmod 0777 /var/log/alerta && sudo chgrp www-data /var/log/alerta
 sudo service apache2 restart
 
 # Generate test alerts
@@ -41,3 +42,4 @@ chmod +x /var/tmp/create-alerts.sh && /var/tmp/create-alerts.sh
 # Clean-up
 mongo monitoring --eval 'db.heartbeats.remove()'
 
+pip show alerta
