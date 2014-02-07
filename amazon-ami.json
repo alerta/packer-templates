@@ -21,7 +21,11 @@
   }],
   "provisioners": [{
     "type": "shell",
-    "script": "scripts/alerta.sh",
+    "scripts": [
+      "scripts/base.sh",
+      "scripts/alerta.sh"
+    ],
+    "execute_command": "{{ .Vars }} sudo -E sh '{{ .Path }}'",
     "pause_before": "10s"
   }]
 }
