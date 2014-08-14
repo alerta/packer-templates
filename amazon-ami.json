@@ -9,13 +9,12 @@
     "access_key": "{{user `aws_access_key`}}",
     "secret_key": "{{user `aws_secret_key`}}",
     "region": "eu-west-1",
-    "source_ami": "ami-b6ad5ac1",
+    "source_ami": "ami-aa1cc1dd",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
     "ami_name": "{{user `name`}}",
-    "ami_description": "Alerta monitoring server and console http://github.com/guardian/alerta",
+    "ami_description": "Alerta monitoring system http://github.com/guardian/alerta",
     "tags": {
-      "Packager": "packer.io",
       "Name": "Alerta"
     }
   }],
