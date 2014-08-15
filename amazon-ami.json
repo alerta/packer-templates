@@ -2,7 +2,7 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "name": "alerta-{{timestamp}}"
+    "release": "{{timestamp}}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -12,10 +12,12 @@
     "source_ami": "ami-aa1cc1dd",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "{{user `name`}}",
+    "ami_name": "alerta-{{user `release`}}",
     "ami_description": "Alerta monitoring system http://github.com/guardian/alerta",
+    "associate_public_ip_address": true,
     "tags": {
-      "Name": "Alerta"
+      "Name": "Alerta",
+      "Release": "{{user `release`}}"
     }
   }],
   "provisioners": [{
