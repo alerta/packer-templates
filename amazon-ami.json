@@ -12,7 +12,7 @@
     "source_ami": "ami-2ebd1f59",
     "instance_type": "t1.micro",
     "ssh_username": "ubuntu",
-    "ami_name": "alerta-{{user `release`}}",
+    "ami_name": "{{user `name`}}",
     "ami_description": "Alerta monitoring system http://github.com/guardian/alerta",
     "associate_public_ip_address": true,
     "tags": {
