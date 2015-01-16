@@ -27,6 +27,7 @@ Listen 8080
   WSGIDaemonProcess alerta processes=5 threads=5
   WSGIProcessGroup alerta
   WSGIScriptAlias / /var/www/api.wsgi
+  WSGIPassAuthorization On
   <Directory /opt/alerta>
     WSGIApplicationGroup %{GLOBAL}
     Require all granted
@@ -43,7 +44,7 @@ Listen 8080
 EOF
 
 cat >/var/www/api.wsgi << EOF
-#/usr/bin/env python
+#!/usr/bin/env python
 activate_this = '/opt/alerta/bin/activate_this.py'
 execfile(activate_this, dict(__file__=activate_this))
 from alerta.app import app as application
@@ -64,7 +65,7 @@ echo "ServerName localhost" >> /etc/apache2/apache2.conf
 a2enmod proxy_http
 service apache2 reload
 
-cd /var/www
+cd /var/www && rm -Rf html/*
 wget -q -O - https://github.com/alerta/angular-alerta-webui/tarball/master | tar zxf -
 mv alerta-angular-alerta-webui-*/app/* html
 rm -Rf alerta-angular-alerta-webui-*
