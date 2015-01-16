@@ -4,7 +4,7 @@ set -x
 
 export AUTH_REQUIRED=False
 export CLIENT_ID=not-set
-export REDIRECT_URL=not-set
+export CLIENT_SECRET=not-set
 export ALLOWED_EMAIL_DOMAIN=*
 
 apt-get -y update
@@ -23,20 +23,22 @@ echo "PATH=$PATH:/opt/alerta/bin" >/etc/profile.d/alerta.sh
 cat >/etc/apache2/sites-available/000-default.conf << EOF
 Listen 8080
 <VirtualHost *:8080>
-   ServerName localhost
-   WSGIDaemonProcess alerta processes=5 threads=5
-   WSGIProcessGroup alerta
-   WSGIScriptAlias / /var/www/api.wsgi
-   <Directory /opt/alerta>
-     WSGIApplicationGroup %{GLOBAL}
-     Require all granted
-   </Directory>
+  ServerName localhost
+  WSGIDaemonProcess alerta processes=5 threads=5
+  WSGIProcessGroup alerta
+  WSGIScriptAlias / /var/www/api.wsgi
+  <Directory /opt/alerta>
+    WSGIApplicationGroup %{GLOBAL}
+    Require all granted
+  </Directory>
 </VirtualHost>
 <VirtualHost *:80>
-   DocumentRoot /var/www/html
-   <Directory /var/www/html>
-     Require all granted
-   </Directory>
+  ProxyPass /api http://localhost:8080
+  ProxyPassReverse /api http://localhost:8080
+  DocumentRoot /var/www/html
+  <Directory /var/www/html>
+    Require all granted
+  </Directory>
 </VirtualHost>
 EOF
 
@@ -52,12 +54,14 @@ SECRET_KEY = '$(< /dev/urandom tr -dc A-Za-z0-9_\!\@\#\$\%\^\&\*\(\)-+= | head -
 
 AUTH_REQUIRED = $AUTH_REQUIRED
 OAUTH2_CLIENT_ID = '$CLIENT_ID'
+OAUTH2_CLIENT_SECRET = '$CLIENT_SECRET'
 ALLOWED_EMAIL_DOMAINS = ['$ALLOWED_EMAIL_DOMAIN']
 
 PLUGINS = ['reject']
 EOF
 
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
+a2enmod proxy_http
 service apache2 reload
 
 cd /var/www
@@ -69,8 +73,8 @@ cat >/var/www/html/config.js << EOF
 'use strict';
 angular.module('config', [])
   .constant('config', {
-    'endpoint'    : "http://"+window.location.hostname+":8080",
-    'client_id'   : "$CLIENT_ID",
-    'redirect_url': "$REDIRECT_URL"
+    'endpoint'    : "/api",
+    'provider'    : "google",
+    'client_id'   : "$CLIENT_ID"
   });
 EOF
