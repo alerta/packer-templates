@@ -1,6 +1,7 @@
 Packer Templates for Alerta
 ===========================
-Used to build the vm images available for download on [alerta.io](http://alerta.io/).
+
+These [Packer](https://packer.io) templates can be used to build virtual machine images for [alerta](http://alerta.io/).
 
 Set-up
 ------
@@ -25,4 +26,4 @@ To build a VMWare Image and a VirtualBox image run:
 
 License
 -------
-Copyright (c) 2014 Nick Satterly. Available under the MIT License.
+Copyright (c) 2015 Nick Satterly. Available under the MIT License.
