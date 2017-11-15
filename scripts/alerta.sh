@@ -47,7 +47,7 @@ cat >/var/www/api.wsgi << EOF
 #!/usr/bin/env python
 activate_this = '/opt/alerta/bin/activate_this.py'
 execfile(activate_this, dict(__file__=activate_this))
-from alerta.app import app as application
+from alerta import app as application
 EOF
 
 cat >/etc/alertad.conf << EOF
@@ -58,7 +58,7 @@ OAUTH2_CLIENT_ID = '$CLIENT_ID'
 OAUTH2_CLIENT_SECRET = '$CLIENT_SECRET'
 ALLOWED_EMAIL_DOMAINS = ['$ALLOWED_EMAIL_DOMAIN']
 
-PLUGINS = ['reject']
+PLUGINS = ['reject','blackout']
 EOF
 
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
